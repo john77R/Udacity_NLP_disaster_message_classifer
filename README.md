@@ -5,24 +5,30 @@ Clone repository:
 git clone https://github.com/john77R/Udacity_NLP_disaster_message_classifer
 
 # 2.	Current Requirements:
-pandas, numpy, sklearn, sqlite3,nltk,pickle,sys,re,
+pandas, numpy, sklearn, sqlite3,nltk,pickle,sys,re, Flask,plotly...
 
 # 3.	Project Motivation
 
-TThe aim of this project was to deploy a web app which classifys text into various catagories.
+  The aim of this project was to deploy a web app which analyzes disaster data from Figure Eight( now https://appen.com/) to build a model for an API that classifies disaster messages. The project includes a web app where in theory an emergency worker can input a new message and get classification results in several categories. The web app will also display visualizations of the data. The choice of model used in this case is a KNN (https://scikit-learn.org/stable/modules/generated/sklearn.neighbors.KNeighborsClassifier.html) for multiclass classification. A number of models were trialed and KNN struck a nice balance of good F1 score and small model( Pkl file) size. Grid search CV again from Sklearn was used to find the optimal model.
+
+  To convert our preclassified text data into a more model friendly format a typical NLP pipeline was built using Regular expressions, tokenisation, Lemmatization( Nltk module). Once our text is ready for ML training we build a pipline using;CountVectorizer,TfidfTransformer & a MultiOutputClassifier. We use CVgrid search with the search parameters specifed to train and test our model. See the notebook attached to step through the steps.
+  
+  The Web app is python using flask with visulaisations in plotly.
+  
+  Visuals are provided to show the Web App running.
 
 
 # 4.	File Descriptions
-The data source for this project is the disaster message repo from . 
+The data source for this project is the disaster message repo from https://appen.com/ which is availble through Udacity.
 
 
 # 5.	How to Interact with this project.
-Clone the repo and use it for your own Airbnb analysis. Any listings file from the website http://insideairbnb.com can be saved to your system and the code cell for “fetch our dataset” modified to reflect the location of your saved data source.
+Clone the repo and use it for your own NLP project. All the code presented here may be reused with minimal refactoring for other NLP or muliticalssification tasks. 
 
 # 6.	Acknowledgements
-*Kaggle
+*Appen//figureEight
 *Udacity.
-*Insideairbnb.
+
 
 
 MIT License
