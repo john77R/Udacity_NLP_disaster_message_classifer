@@ -1,76 +1,60 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Fri Jun  4 23:47:23 2021
+
+@author: John
+"""
+
 import sys
 import pandas as pd
-import numpy as np
-import sqlite3
+from sqlalchemy import create_engine
 
 def load_data(messages_filepath, categories_filepath):
-     """
-    Load data from a file location
-    Input: messages_filepath 
-            path to the messagages data csv location
-            
-           categories_filepath
-            path to the categories data csv location
-            
-    Output: df = DataFrame
-            Merged DataFrame of message and categories data
-    """
+
     messages = pd.read_csv(messages_filepath)
-    
     categories = pd.read_csv(categories_filepath)
     
     # merge datasets
     df = pd.merge(messages, categories, on="id")
-
-
-def clean_data(df):
-     """
-    Extracts categories and flags from categories data, remove duplicates
-    Input: df - DataFrame
-            Dataframe output from load_data function
-    Output: df - DataFrame
-            Cleansed dataframe of the input data
-    """
-    
-    # create a dataframe of the 36 individual category columns
-    categories = df["categories"].str.split(";", expand = True)
-    
-    # select the first row of the categories dataframe
-    row =categories.iloc[1:2]
-
-    # use this row to extract a list of new column names for categories.
-    # apply a lambda function that takes everything 
-    # up to the second to last character of each string with slicing
-    category_colnames = pd.DataFrame(row.applymap(lambda x: (str(x))[:-2]))
-    category_colnames = category_colnames.values.tolist()
-    
-    category_colnames = categories.columns
-    categories=categories.replace(to_replace=r'\D', value='', regex=True)
-    
-    # drop the original categories column from `df`
-    df=df.drop(columns=['categories'])
-    # concatenate the original dataframe with the new `categories` dataframe
-    df = pd.concat([df, categories],axis=1)
-    
-    # drop duplicates
-    df=df.drop_duplicates(subset=['message'])
     
     return df
 
 
-
-def save_data(df, database_filename, Db_name = 'DisasterResponceDatabase'):
+def clean_data(df):
+  
+    categories = df["categories"].str.split(";", expand=True)
     
-    """
-    Save cleaned data to database
-    Input: df - DataFrame from clean_data
-           database_filename - Database file location of where post ETL data is to be stored
-           Db_name - Can be any name to given to our Loaded Database
-    """
-    engine = create_engine('sqlite:///'+database_filename)
-    df.to_sql(table_name, engine, index=False)  
-    print("Data was saved to {} in the {} table".format(database_filename, Db_name))
-                                
+    # select the first row of the categories dataframe
+    row = categories.iloc[0]
+    
+    # remove last 2 characters of catergory names
+    category_colnames = [val[:-2] for val in row]
+    
+    # rename the columns of `categories`
+    categories.columns = category_colnames
+    
+    for column in categories:
+        # set each value to be the last character of the string
+        categories[column] = categories[column].str[-1]
+    
+        # convert column from string to numeric
+        categories[column] = pd.to_numeric(categories[column], downcast="integer")
+    
+    # drop the original categories column from `df`
+    df.drop("categories", axis=1, inplace=True)
+    
+    # concatenate the original dataframe with the new `categories` dataframe
+    df = pd.concat([df, categories], axis=1, sort=False)
+    
+    # drop duplicates
+    df.drop(df[df.duplicated(keep="first")].index, inplace=True)
+    
+    return df
+
+def save_data(df, database_filename):
+    '''save dataframe as sql database file'''
+    engine = create_engine('sqlite:///' + database_filename)
+    df.to_sql('DisasterResponse', engine, index=False)  
 
 
 def main():
