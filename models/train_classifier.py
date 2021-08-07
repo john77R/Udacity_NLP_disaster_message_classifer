@@ -200,7 +200,8 @@ def evaluate_model(model, X_test, y_test, category_names):
 
     #itterate through the columns of the y-predict data frame and compare to the Ytest set using the classification report
     for col in y_test:
-        test_score = classification_report(y_test[col],df_ytest_predict[col],)
+        print("Test Score results for Category..........",col)
+        test_score = classification_report(y_test[col],df_ytest_predict[col])
         #print("\nBest Parameters:", cv.best_params_)
         print(test_score)
 
