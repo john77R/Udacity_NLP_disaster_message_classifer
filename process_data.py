@@ -25,11 +25,11 @@ def clean_data(df):
     categories = df["categories"].str.split(";", expand=True)
     
     # select the first row of the categories dataframe
-    row = categories.iloc[0]
+    row = categories.iloc[[1]]
     
     # remove last 2 characters of catergory names
     category_colnames = [category_name.split('-')[0] for category_name in row.values[0]]
-    print(category_colnames)
+    
     # rename the columns of `categories`
     categories.columns = category_colnames
     
@@ -41,17 +41,15 @@ def clean_data(df):
         #categories[column] = pd.to_numeric(categories[column], downcast="integer")
         categories[column] = categories[column].astype(int)
     
-    #Ensure all values are binary 0 or 1, drop values which are >1
     categories.drop(categories[categories['related'] > 1].index, inplace = True)
     # drop the original categories column from `df`
-    
     df.drop("categories", axis=1, inplace=True)
     
     # concatenate the original dataframe with the new `categories` dataframe
     df = pd.concat([df, categories],join='inner',axis=1)
     
     # drop duplicates
-    df.drop(df[df.duplicated(keep="first")].index, inplace=True)
+    df=df.drop_duplicates(subset=['message'])
     
     return df
 
