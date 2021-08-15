@@ -14,7 +14,7 @@ from sqlalchemy import create_engine
 
 
 app = Flask(__name__)
-#####An NLP App to classify text into catagories with a ML model back end. More specifically text from historical disasters has been post classifed into 36 different catagories where the aim would be to aid the process of responing to a future disaster. 
+#####An NLP App to classify text into catagories with a ML model back end
 
 ##inputs: text ->(the message to be classifed)
 				##model-> sklearn Knn"""
@@ -108,7 +108,7 @@ def index():
 # web page that handles user query and displays model results
 @app.route('/go')
 def go():
-	"""Function to handle use imput compplete classification and display resutls"""
+	"""Function to handle user input,runs classification and displays resutls"""
     # save user input in query
     query = request.args.get('query', '') 
 
