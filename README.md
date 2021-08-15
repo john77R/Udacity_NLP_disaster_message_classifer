@@ -38,7 +38,25 @@ The data source for this project is the disaster message repo from https://appen
 
 Alternatively: Clone the repo and use it for your own NLP project. All the code presented here may be reused with minimal refactoring for other NLP or muliticalssification tasks. 
 
-# 6.	Acknowledgements
+# 6. Files in the repository
+Keep the file structure as follows:
+app
+| - template
+| |- master.html # main page of web app
+| |- go.html # classification result page of web app
+|- run.py # Flask file that runs app
+data
+|- disaster_categories.csv # data to process
+|- disaster_messages.csv # data to process
+|- process_data.py
+|- InsertDatabaseName.db # database to save clean data to
+models
+|- train_classifier.py
+|- classifier.pkl # saved model
+README.md
+
+
+# 7.	Acknowledgements
 *Appen//figureEight
 *Udacity.
 
