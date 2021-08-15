@@ -10,6 +10,8 @@ import pandas as pd
 from sqlalchemy import create_engine
 
 def load_data(messages_filepath, categories_filepath):
+	"""Function to load data
+		returns a dataframe""""
 
     messages = pd.read_csv(messages_filepath)
     categories = pd.read_csv(categories_filepath)
@@ -21,6 +23,7 @@ def load_data(messages_filepath, categories_filepath):
 
 
 def clean_data(df):
+	""""Function to clean text data""""
   
     categories = df["categories"].str.split(";", expand=True)
     
