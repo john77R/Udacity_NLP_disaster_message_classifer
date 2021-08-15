@@ -14,14 +14,14 @@ from sqlalchemy import create_engine
 
 
 app = Flask(__name__)
-"""An NLP App to classify text into catagories with a ML model back end. More specifically text from historical disasters is has been post classifed into 36 different catagories where the aim would be to aid the process of responing to a future disaster. 
+#####An NLP App to classify text into catagories with a ML model back end. More specifically text from historical disasters has been post classifed into 36 different catagories where the aim would be to aid the process of responing to a future disaster. 
 
-inputs: text ->(the message to be classifed)
-				model-> sklearn Knn"""
+##inputs: text ->(the message to be classifed)
+				##model-> sklearn Knn"""
 
 def tokenize(text):
 	"""Function to tokenise text
-			input ran txt
+			input natural text
 			returns: cleaned tokens""""
 			
 
@@ -43,11 +43,12 @@ df = pd.read_sql_table('DisasterResponse', engine)
 model = joblib.load("../models/classifier.pkl")
 print(model)
 
-# index webpage displays cool visuals and receives user input text for model
+# index webpage displays visuals and receives user input text for model
 @app.route('/')
 @app.route('/index')
 def index():
-    
+	""""Function to set up the required elements of the index.html""""
+	
     # extract data needed for visuals
     genre_counts = df.groupby('genre').count()['message']
     genre_names = list(genre_counts.index)
@@ -107,6 +108,7 @@ def index():
 # web page that handles user query and displays model results
 @app.route('/go')
 def go():
+	"""Function to handle use imput compplete classification and display resutls"""
     # save user input in query
     query = request.args.get('query', '') 
 
@@ -123,6 +125,7 @@ def go():
 
 
 def main():
+	"""Run our classification app on port 3001"""
     app.run(host='0.0.0.0', port=3001, debug=True)
 
 
