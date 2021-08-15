@@ -63,6 +63,12 @@ def save_data(df, database_filename):
 
 
 def main():
+	"""Function to call all sub functions which carry out the following operations:
+		load the data.
+		clean data.
+		save the cleaned data to a data base
+		display a message when data has been processed.""""
+		
     if len(sys.argv) == 4:
 
         messages_filepath, categories_filepath, database_filepath = sys.argv[1:]
