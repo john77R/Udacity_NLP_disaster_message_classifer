@@ -17,13 +17,10 @@ app = Flask(__name__)
 #####An NLP App to classify text into catagories with a ML model back end
 
 ##inputs: text ->(the message to be classifed)
-				##model-> sklearn Knn"""
+##model-> sklearn Knn"""
 
 def tokenize(text):
-	"""Function to tokenise text
-			input natural text
-			returns: cleaned tokens""""
-			
+    """Function to tokenise text input natural text returns: cleaned tokens"""
 
     tokens = word_tokenize(text)
     lemmatizer = WordNetLemmatizer()
@@ -47,8 +44,8 @@ print(model)
 @app.route('/')
 @app.route('/index')
 def index():
-	""""Function to set up the required elements of the index.html""""
-	
+    """Function to set up the required elements of the index.html"""
+
     # extract data needed for visuals
     genre_counts = df.groupby('genre').count()['message']
     genre_names = list(genre_counts.index)
@@ -108,7 +105,7 @@ def index():
 # web page that handles user query and displays model results
 @app.route('/go')
 def go():
-	"""Function to handle user input,runs classification and displays resutls"""
+    """Function to handle user input,runs classification and displays resutls"""
     # save user input in query
     query = request.args.get('query', '') 
 
@@ -125,7 +122,7 @@ def go():
 
 
 def main():
-	"""Run our classification app on port 3001"""
+    """Run our classification app on port 3001"""
     app.run(host='0.0.0.0', port=3001, debug=True)
 
 
