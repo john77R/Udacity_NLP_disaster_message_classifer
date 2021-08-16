@@ -10,8 +10,7 @@ import pandas as pd
 from sqlalchemy import create_engine
 
 def load_data(messages_filepath, categories_filepath):
-	"""Function to load data
-		returns a dataframe""""
+    """Function to load data returns a dataframe"""
 
     messages = pd.read_csv(messages_filepath)
     categories = pd.read_csv(categories_filepath)
@@ -23,7 +22,7 @@ def load_data(messages_filepath, categories_filepath):
 
 
 def clean_data(df):
-	""""Function to clean text data""""
+    """Function to clean text data"""
   
     categories = df["categories"].str.split(";", expand=True)
     
@@ -57,18 +56,14 @@ def clean_data(df):
     return df
 
 def save_data(df, database_filename):
-    '''save dataframe as sql database file'''
+    """save dataframe as sql database file"""
     engine = create_engine('sqlite:///' + database_filename)
     df.to_sql('DisasterResponse', engine, index=False,if_exists='replace')  
 
 
 def main():
-	"""Function to call all sub functions which carry out the following operations:
-		load the data.
-		clean data.
-		save the cleaned data to a data base
-		display a message when data has been processed.""""
-		
+    """Function to call all sub functions  to process and clean data."""
+    
     if len(sys.argv) == 4:
 
         messages_filepath, categories_filepath, database_filepath = sys.argv[1:]
